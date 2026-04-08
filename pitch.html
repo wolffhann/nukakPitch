@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitch NUKAK — Tera House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --dark: #231F20;
+      --red: #E82944;
+      --green: #6CBE45;
+      --gold: #FAA63E;
+      --white: #FFFFFF;
+      --blue: #72C4D2;
+      --purple: #A55BA4;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      background: #231F20;
+    }
+
+    .track {
+      display: flex;
+      height: 100vh;
+      transition: transform .9s cubic-bezier(.86, 0, .07, 1);
+      will-change: transform;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 7vw;
+      opacity: .3;
+      transform: scale(.97);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .rv {
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      transform: translateY(40px);
+      opacity: 0;
+      transition: clip-path 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1s ease;
+    }
+
+    .slide.active .rv {
+      clip-path: polygon(-10% -10%, 110% -10%, 110% 110%, -10% 110%);
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @keyframes gentleFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5vh);
+      }
+    }
+
+    .slide.active .mascot-layer {
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+
+    .stamp {
+      transition: opacity 0.5s ease;
+    }
+
+    .d1 {
+      transition-delay: .07s
+    }
+
+    .d2 {
+      transition-delay: .18s
+    }
+
+    .d3 {
+      transition-delay: .3s
+    }
+
+    .d4 {
+      transition-delay: .44s
+    }
+
+    .d5 {
+      transition-delay: .58s
+    }
+
+    .d6 {
+      transition-delay: .72s
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.025em;
+    }
+
+    .tag {
+      font-size: .6vw;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #888;
+      display: block;
+      margin-bottom: .7rem;
+    }
+
+    .tag-w {
+      color: rgba(255, 255, 255, .4);
+    }
+
+    .bar {
+      width: 48px;
+      height: 3px;
+      background: var(--red);
+      margin: 1.2rem 0;
+    }
+
+    .bar-g {
+      background: var(--green);
+    }
+
+    .bar-w {
+      background: #fff;
+    }
+
+    .ghost {
+      position: absolute;
+      font-size: 26vw;
+      font-weight: 900;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1;
+      bottom: -5vw;
+      right: -2vw;
+      pointer-events: none;
+      z-index: 0;
+      color: rgba(0, 0, 0, .04);
+    }
+
+    .ghost-w {
+      color: rgba(255, 255, 255, .04);
+    }
+
+    .tl,
+    .td,
+    .tr,
+    .tg {
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    .td {
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .tr {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .tg {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .tc {
+      background: #1a1209;
+      color: #fff;
+    }
+
+    .center-slide {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      width: 100%;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .split3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2vw;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wide {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .narrow {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+    }
+
+    p.body {
+      font-size: 1vw;
+      line-height: 1.65;
+      color: #222;
+    }
+
+    p.body-w {
+      font-size: 1vw;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, .75);
+    }
+
+    p.sub {
+      font-size: .85vw;
+      line-height: 1.6;
+      color: #444;
+      margin-top: .8rem;
+    }
+
+    p.sub-w {
+      font-size: .85vw;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, .55);
+      margin-top: .8rem;
+    }
+
+    .card {
+      background: #fff;
+      border-top: 3px solid var(--red);
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .07);
+    }
+
+    .card h4 {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: .95vw;
+      margin-bottom: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--red);
+    }
+
+    .card p {
+      font-size: .8vw;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .card-g {
+      border-top-color: var(--green);
+    }
+
+    .card-g h4 {
+      color: var(--green);
+    }
+
+    .card-d {
+      background: #151515;
+      border-top: 3px solid var(--red);
+      padding: 1.4rem 1.6rem;
+    }
+
+    .card-d h4 {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: .9vw;
+      margin-bottom: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--red);
+    }
+
+    .card-d p {
+      font-size: .8vw;
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.5;
+    }
+
+    .pcard {
+      border-left: 3px solid var(--red);
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .pcard h4 {
+      font-family: 'Montserrat';
+      font-weight: 800;
+      font-size: 1.1vw;
+      color: var(--red);
+      margin-bottom: .3rem;
+    }
+
+    .pcard p {
+      font-size: .8vw;
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.5;
+    }
+
+    .idx {
+      list-style: none;
+      width: 100%;
+      border-top: 2px solid var(--dark);
+    }
+
+    .idx-w {
+      border-top-color: #333;
+    }
+
+    .idx li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.3vw;
+      font-weight: 800;
+      font-family: 'Montserrat';
+      padding: .7rem 0;
+      border-bottom: 1px solid #d5d0c8;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+    }
+
+    .idx-w li {
+      border-bottom-color: #2a2a2a;
+      color: #fff;
+    }
+
+    .idx li span {
+      font-weight: 400;
+      font-size: .8vw;
+      color: var(--red);
+      letter-spacing: .06em;
+      text-transform: none;
+      font-family: 'DM Sans';
+    }
+
+    .spectrum {
+      display: flex;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .spectrum div {
+      flex: 1;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: .35rem .9rem;
+      border-radius: 2rem;
+      font-size: .7vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: .3rem .2rem;
+    }
+
+    .pill-r {
+      background: rgba(200, 52, 26, .15);
+      color: var(--red);
+      border: 1px solid rgba(200, 52, 26, .3);
+    }
+
+    .pill-g {
+      background: rgba(45, 74, 34, .15);
+      color: var(--green);
+      border: 1px solid rgba(45, 74, 34, .3);
+    }
+
+    .pill-d {
+      background: #1f1f1f;
+      color: #bbb;
+      border: 1px solid #333;
+    }
+
+    /* UI chrome */
+    .stamp {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      z-index: 999;
+      font-size: .55vw;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #fff;
+      mix-blend-mode: difference;
+    }
+
+    .prg-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: var(--red);
+      z-index: 999;
+      transition: width .5s ease;
+    }
+
+    .ctrls {
+      position: fixed;
+      bottom: 24px;
+      right: 32px;
+      z-index: 999;
+      display: flex;
+      gap: .6rem;
+    }
+
+    .cbtn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      font-family: 'DM Sans';
+      font-size: .6vw;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: .4rem .9rem;
+      transition: all .2s;
+      mix-blend-mode: difference;
+    }
+
+    .cbtn:hover {
+      border-color: #fff;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .slc {
+      position: fixed;
+      bottom: 24px;
+      left: 32px;
+      z-index: 999;
+      font-size: .55vw;
+      font-weight: 700;
+      letter-spacing: .15em;
+      color: #fff;
+      mix-blend-mode: difference;
+    }
+
+    /* moodboard grid */
+    .moodgrid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: .5rem;
+      height: 70vh;
+    }
+
+    .mbox {
+      background: #1a1a1a;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mbox:first-child {
+      grid-row: 1/3;
+    }
+
+    .mbox img,
+    .mbox .ph {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mbox .ph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: 1.2vw;
+      color: rgba(255, 255, 255, .2);
+      background: #111;
+      border: 1px dashed #333;
+    }
+
+    /* ficha tecnica */
+    .ficha {
+      background: #0e0e0e;
+      border: 1px solid #2a2a2a;
+      padding: 1.4rem 1.6rem;
+    }
+
+    .ficha h4 {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: .85vw;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: .6rem;
+    }
+
+    .ficha dl dt {
+      font-size: .6vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #555;
+      margin-top: .7rem;
+    }
+
+    .ficha dl dd {
+      font-size: .8vw;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
+    /* img placeholder */
+    .img-ph {
+      background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+      border: 2px dashed #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .8rem;
+      border-radius: 4px;
+    }
+
+    .img-ph span {
+      font-size: .7vw;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #444;
+    }
+
+    /* qr box */
+    .qr-box {
+      background: #fff;
+      padding: 1.2rem;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .qr-inner {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #eee 25%, #fff 25%, #fff 50%, #eee 50%, #eee 75%, #fff 75%);
+      background-size: 20px 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ddd;
+    }
+
+    .qr-inner span {
+      font-size: .5vw;
+      font-weight: 900;
+      color: #aaa;
+      text-align: center;
+      font-family: 'Montserrat';
+    }
+
+    .qr-box p {
+      font-size: .55vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #333;
+      text-align: center;
+      max-width: 130px;
+      line-height: 1.4;
+    }
+
+    /* donut chart */
+    .donut-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .donut-wrap svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .donut-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: 1.3vw;
+      text-align: center;
+      color: #fff;
+    }
+
+    .donut-label small {
+      display: block;
+      font-size: .5vw;
+      font-weight: 400;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .charts-row {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .chart-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .chart-item label {
+      font-size: .6vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #999;
+    }
+
+    /* funnel */
+    .funnel {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 1.5rem;
+    }
+
+    .fstep {
+      flex: 1;
+      padding: 1.2rem 1.4rem;
+      background: #151515;
+      border-right: 1px solid #222;
+      position: relative;
+    }
+
+    .fstep:last-child {
+      border-right: none;
+    }
+
+    .fstep::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 12px solid transparent;
+      border-left: 12px solid #151515;
+      z-index: 2;
+    }
+
+    .fstep:last-child::after {
+      display: none;
+    }
+
+    .fstep .fnum {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: 2.2vw;
+      color: rgba(255, 255, 255, .05);
+      line-height: 1;
+    }
+
+    .fstep h4 {
+      font-family: 'Montserrat';
+      font-weight: 800;
+      font-size: .8vw;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin: .2rem 0 .5rem;
+      color: #fff;
+    }
+
+    .fstep p {
+      font-size: .7vw;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .fstep .pct {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: 1.4vw;
+      color: var(--red);
+      margin-top: .5rem;
+    }
+
+    /* pop modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .85);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      padding: 2.5rem;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-box h3 {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: 1.5vw;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .modal-box .mtag {
+      font-size: .6vw;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .5rem;
+      display: block;
+    }
+
+    .modal-box p {
+      font-size: .85vw;
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: .8rem;
+    }
+
+    .modal-ficha {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+      margin-top: 1rem;
+    }
+
+    .modal-ficha dt {
+      font-size: .6vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #555;
+    }
+
+    .modal-ficha dd {
+      font-size: .78vw;
+      color: #ccc;
+    }
+
+    .pop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pop-item {
+      background: #151515;
+      border: 1px solid #222;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: border-color .2s, transform .2s;
+      text-align: center;
+    }
+
+    .pop-item:hover {
+      border-color: var(--red);
+      transform: translateY(-3px);
+    }
+
+    .pop-item .pop-icon {
+      font-size: 2.5vw;
+      margin-bottom: .8rem;
+    }
+
+    .pop-item h4 {
+      font-family: 'Montserrat';
+      font-weight: 900;
+      font-size: .9vw;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+
+    .pop-item p {
+      font-size: .7vw;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .pop-item .click-hint {
+      font-size: .55vw;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--red);
+      margin-top: .6rem;
+      font-weight: 700;
+    }
+
+    /* bar chart horizontal */
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      margin-top: 1rem;
+    }
+
+    .bc-row {
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+    }
+
+    .bc-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bc-label span:first-child {
+      font-size: .68vw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #999;
+    }
+
+    .bc-label span:last-child {
+      font-size: .75vw;
+      font-weight: 900;
+      font-family: 'Montserrat';
+      color: #fff;
+    }
+
+    .bc-track {
+      width: 100%;
+      height: 6px;
+      background: #222;
+      border-radius: 3px;
+    }
+
+    .bc-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--red);
+      transition: width 1s ease;
+    }
+
+    /* slide 12 web preview */
+    .web-tags {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .browser-mock {
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .brow-bar {
+      background: #1a1a1a;
+      padding: .5rem .8rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .brow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .brow-body {
+      background: #0a120a;
+      height: 38vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: .5rem;
+      padding: 1rem;
+    }
+
+    /* ── TERA HOUSE MASCOTS BG ── */
+    .mascot-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .mascot-layer img {
+      position: absolute;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    /* animations for presentation */
+    .slide.active .crono-line {
+      height: 100% !important;
+    }
+
+    .slide.active .crono-step {
+      opacity: 1 !important;
+      transform: translateX(0) !important;
+    }
+
+    .slide.active .cr-1 {
+      transition-delay: 0.2s !important;
+    }
+
+    .slide.active .cr-1>div:first-child {
+      border-color: var(--green) !important;
+      transition: border-color 0.2s 0.2s;
+    }
+
+    .slide.active .cr-2 {
+      transition-delay: 0.6s !important;
+    }
+
+    .slide.active .cr-2>div:first-child {
+      border-color: var(--green) !important;
+      transition: border-color 0.2s 0.6s;
+    }
+
+    .slide.active .cr-3 {
+      transition-delay: 1.0s !important;
+    }
+
+    .slide.active .cr-3>div:first-child {
+      border-color: var(--green) !important;
+      transition: border-color 0.2s 1.0s;
+    }
+
+    .slide.active .cr-4 {
+      transition-delay: 1.4s !important;
+    }
+
+    .slide.active .cr-4>div:first-child {
+      border-color: var(--green) !important;
+      transition: border-color 0.2s 1.4s;
+    }
+
+    .anim-row {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+    }
+
+    .slide.active .anim-row {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.active .delay-1 {
+      transition-delay: 0.3s;
+    }
+
+    .slide.active .delay-2 {
+      transition-delay: 0.5s;
+    }
+
+    .slide.active .delay-3 {
+      transition-delay: 0.7s;
+    }
+
+    .donut-circle {
+      stroke-dashoffset: 100;
+      stroke-dasharray: 100 100;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .slide.active .donut-circle.c1 {
+      stroke-dashoffset: 73;
+    }
+
+    .slide.active .donut-circle.c2 {
+      stroke-dashoffset: 78;
+    }
+
+    .slide.active .donut-circle.c3 {
+      stroke-dashoffset: 82;
+    }
+
+    .slide.active .donut-circle.c4 {
+      stroke-dashoffset: 67;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="stamp">Tera House Editorial // NUKAK</div>
+  <div class="prg-bar" id="prg"></div>
+  <div class="slc" id="cnt">01 / 18</div>
+  <div class="ctrls">
+    <button class="cbtn" id="prev">← Anterior</button>
+    <button class="cbtn" id="next">Siguiente →</button>
+  </div>
+
+  <!-- MODAL POP -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box" style="display:flex; flex-direction:row; max-width:850px; padding:0; overflow:hidden;">
+      <div id="m-img-wrap"
+        style="flex:1; background:#1a1a1a; display:flex; align-items:center; justify-content:center; padding:2rem;">
+        <img id="m-img" src="" style="max-width:100%; max-height:100%; object-fit:contain; display:none;">
+        <span id="m-icon" style="font-size:6vw; display:none;"></span>
+      </div>
+      <div style="flex:1; padding:2.5rem; position:relative;">
+        <button class="modal-close" id="modal-close" style="top: 1rem; right: 1rem; z-index:10; color:#fff;">✕</button>
+        <span class="mtag" id="m-tag"></span>
+        <h3 id="m-title"></h3>
+        <p id="m-desc"></p>
+        <dl class="modal-ficha" id="m-ficha"></dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="track" id="track">
+
+    <!-- ══ SLIDE 01: PORTADA ══ -->
+    <section class="slide tl center-slide" style="padding:0;">
+      <div class="ghost" style="color:rgba(26,26,26,.05);">NK</div>
+      <div
+        style="position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:0;">
+        <!-- Top left brand stamp -->
+        <div style="position:absolute;top:2.5rem;left:3.5rem;display:flex;align-items:center;gap:1rem;">
+          <img src="foticx/Logo Tera House 1.png" alt="Tera House" style="height:48px;object-fit:contain;">
+          <span
+            style="font-family:'Montserrat';font-weight:700;font-size:.85vw;letter-spacing:.12em;text-transform:uppercase;color:var(--dark);border-left:2px solid var(--red);padding-left:.8rem;">Proyecto
+            Semestral</span>
+        </div>
+        <!-- Center content -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-align:center;">
+          <div class="rv d1">
+            <img src="foticx/Logo.png" alt="Nukak Logo" style="height:238px;object-fit:contain;">
+          </div>
+          <h1 class="rv d2" style="font-size:9vw;color:var(--dark);letter-spacing:.04em;">NUKAK</h1>
+          <div class="bar rv d3" style="margin:.4rem auto;"></div>
+          <p class="rv d4"
+            style="font-family:'Montserrat';font-size:1.15vw;color:#222;font-weight:300;letter-spacing:.08em;">Una
+            mirada más allá del conflicto.</p>
+          <p class="rv d5"
+            style="font-size:.8vw;color:#444;letter-spacing:.12em;font-weight:600;text-transform:uppercase;">Editorial
+            &nbsp;·&nbsp; Cultura &nbsp;·&nbsp; Diseño Estructural</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 02: SINOPSIS / ÍNDICE ══ -->
+    <section class="slide tl">
+      <div class="ghost" style="color:rgba(0,0,0,.03);">02</div>
+      <div class="wide" style="margin-top: 4vh;">
+        <span class="tag rv d1">Índice de Presentación</span>
+        <h2 class="rv d2" style="font-size:3.2vw;color:var(--dark);">De qué va<br>todo esto.</h2>
+        <div class="bar rv d3"></div>
+        <div class="rv d4" style="margin-top:2.5rem;">
+          <div
+            style="display:grid;grid-template-rows:repeat(4, auto);grid-auto-flow:column;row-gap:2.5rem;column-gap:1.5rem;">
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                03</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">La Editorial</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">TERA HOUSE</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                04</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Filosofía</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">DE MARCA</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                05</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">La Problemática</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">CONTEXTO</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                06</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Propuesta</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">DE VALOR</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                07</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Moodboard</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">UNIVERSO VISUAL</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                08</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Galería Visual</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">PROCESO Y DETALLE</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                11</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Público Objetivo</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">AUDIENCIA</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                13</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Ecosistema Web</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">INTERACTIVO</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                14</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">La Revista</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">PRODUCTO FÍSICO</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                16</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Empaque 3D</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">DISEÑO DE EMPAQUE</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                17</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Material POP</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">MERCHANDISING</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                18</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Estrategia</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">DE MARKETING</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                19</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Roles</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">EJECUCIÓN HÍBRIDA</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.8rem;">
+              <div style="font-family:'Montserrat';font-weight:900;font-size:3.8vw;color:var(--dark);line-height:0.8;">
+                20</div>
+              <div style="padding-top:0.25rem;">
+                <div style="font-weight:800;font-size:.9vw;text-transform:uppercase;">Resultados</div>
+                <div style="font-size:.65vw;color:var(--red);margin-top:.2rem;font-weight:bold;">KPI Y CRONOGRAMA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 03: TERA HOUSE ══ -->
+    <section class="slide td">
+      <div class="ghost ghost-w">TH</div>
+      <div class="split">
+        <div>
+          <span class="tag tag-w rv d1">03 — El Estudio</span>
+          <h2 class="rv d2" style="font-size:4.5vw;">Hola,<br>somos<br>Tera House.</h2>
+          <div class="bar bar-w rv d3"></div>
+          <p class="body-w rv d4">Somos una editorial creativa independiente. Creemos que el diseño puede y debe darle
+            forma a las historias que el mundo necesita escuchar — con respeto, investigación y audacia visual.</p>
+        </div>
+        <div class="rv d5">
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:2rem;">
+            <span class="tag tag-w">El Equipo Creativo</span>
+            <div class="pcard" style="margin-top:1rem;">
+              <h4>Johan Garzón</h4>
+              <p>Diseñador gráfico — Dirección de arte, conceptualización de la revista física NUKAK, manual de marca y
+                producto coleccionable.</p>
+            </div>
+            <div class="pcard" style="margin-top:1.2rem;">
+              <h4>Emily Casas</h4>
+              <p>Diseñadora web — Desarrollo de toda la experiencia interactiva digital, juego de supervivencia y
+                e-commerce del proyecto.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 04: FILOSOFÍA + QR ══ -->
+    <section class="slide tr">
+      <div class="ghost ghost-w">04</div>
+      <div class="split">
+        <div>
+          <span class="tag tag-w rv d1" style="color:rgba(255,255,255,.6);">04 — Filosofía de Marca</span>
+          <h2 class="rv d2" style="font-size:4vw;">Diseño que<br>no calla.</h2>
+          <div class="bar bar-w rv d3"></div>
+          <p class="rv d4" style="font-size:1.05vw;line-height:1.65;color:rgba(255,255,255,.9);">Tera House nace como
+            respuesta a un mercado cultural saturado de piezas genéricas. Somos una editorial de nicho que trabaja con
+            causas invisibilizadas, transformándolas en objetos coleccionables de alto valor percibido.</p>
+          <p class="rv d5" style="font-size:.88vw;line-height:1.6;color:rgba(255,255,255,.7);margin-top:1rem;">No
+            hacemos brochures institucionales. Hacemos diseño editorial premium y experiencias web gamificadas para
+            causas que merecen ser recordadas — no solo archivadas.</p>
+          <div class="rv d6" style="margin-top:1.5rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+            <span class="pill" style="background:rgba(0,0,0,.2);color:#fff;border-color:rgba(255,255,255,.2);">Editorial
+              Premium</span>
+            <span class="pill" style="background:rgba(0,0,0,.2);color:#fff;border-color:rgba(255,255,255,.2);">Diseño
+              con propósito</span>
+            <span class="pill" style="background:rgba(0,0,0,.2);color:#fff;border-color:rgba(255,255,255,.2);">Cultura +
+              Identidad</span>
+          </div>
+        </div>
+        <div class="rv d5"
+          style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;">
+          <div class="qr-box" style="background:none;padding:0;">
+            <div class="qr-inner"
+              style="background:none;border:none;padding:0;width:30vw;height:30vw;min-width:350px;min-height:350px;">
+              <img src="foticx/QR manualterahouse.png" alt="QR Manual Tera House"
+                style="width:100%;height:100%;object-fit:contain;"></div>
+            <p
+              style="font-size:1.2vw;color:#fff;text-align:center;margin-top:1rem;color:rgba(255,255,255,.8);text-transform:uppercase;max-width:none;">
+              Escanea para ver<br>nuestro Manual de Marca</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 05: PROBLEMÁTICA ══ -->
+    <section class="slide td">
+      <div class="ghost ghost-w">05</div>
+      <div class="split">
+        <div>
+          <span class="tag tag-w rv d1">05 — La Problemática</span>
+          <h2 class="rv d2" style="font-size:3.8vw;">El fin de<br>caminar.</h2>
+          <div class="bar rv d3"></div>
+          <p class="body-w rv d4">Los Nukak son uno de los últimos pueblos nómadas de Colombia — habitantes de la selva
+            inmensa del Guaviare durante siglos. Caminar era su forma de existir.</p>
+          <p class="sub-w rv d5">Pero el conflicto armado, la deforestación y el contacto forzado han extinguido esa
+            movilidad. Sus asentamientos improvisados se convierten en limbo permanente. <strong style="color:#fff;">Una
+              generación entera de colombianos no sabe quiénes son.</strong></p>
+          <div class="rv d6" style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div style="border-left:3px solid var(--red);padding-left:.8rem;">
+              <p style="font-family:'Montserrat';font-weight:900;font-size:2vw;color:var(--red);">~500</p>
+              <p style="font-size:.7vw;color:#888;text-transform:uppercase;letter-spacing:.08em;">personas restantes en
+                el pueblo Nukak</p>
+            </div>
+            <div style="border-left:3px solid #555;padding-left:.8rem;">
+              <p style="font-family:'Montserrat';font-weight:900;font-size:2vw;color:#888;">95%</p>
+              <p style="font-size:.7vw;color:#888;text-transform:uppercase;letter-spacing:.08em;">reducción de su
+                territorio original</p>
+            </div>
+          </div>
+        </div>
+        <div class="rv d5" style="position:relative; z-index:10;">
+          <img src="foticx/amaca.png"
+            style="position:absolute; bottom:0; right:2vw; width:55vw; max-height:95vh; object-fit:contain; object-position:center bottom; z-index:10;">
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ SLIDE 06: PROPUESTA DE VALOR ══ -->
+    <section class="slide tl">
+      <div class="ghost" style="color:rgba(0,0,0,.04);">06</div>
+      <div class="split">
+        <div>
+          <span class="tag rv d1">06 — Propuesta de Valor</span>
+          <h2 class="rv d2" style="font-size:3.5vw;color:var(--dark);">Un ecosistema<br><span
+              style="color:var(--red);">editorial vivo.</span></h2>
+          <div class="bar rv d3"></div>
+          <p class="body rv d4"><strong>NUKAK</strong> no es un trabajo académico destinado al archivo. Es una
+            plataforma cultural completa — física y digital — diseñada para competir en el mercado editorial moderno con
+            propósito real y estética premium.</p>
+          <p class="sub rv d5">Investigación periodística sin amarillismo, envuelta en dirección de arte de alto nivel.
+            Visibilizamos una etnia en peligro traduciendo su cosmovisión al lenguaje visual del siglo XXI.</p>
+        </div>
+        <div class="rv d5">
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div class="card">
+              <h4>📰 Revista Editorial Premium</h4>
+              <p>Producto físico coleccionable de edición limitada. Periodismo visual de alto impacto con dirección de
+                arte única.</p>
+            </div>
+            <div class="card card-g">
+              <h4>🌐 Experiencia Digital Inmersiva</h4>
+              <p>Website en HTML5/CSS/JS con juego de supervivencia y previsualizador interactivo de la revista. Embudo
+                de venta cultural.</p>
+            </div>
+            <div class="card" style="border-top-color:var(--gold);">
+              <h4 style="color:var(--gold);">📦 Pack Coleccionable</h4>
+              <p>Empaque premium + tote bag + organizador de escritorio + stickers. Unboxing como primera narrativa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 07: MOODBOARD ══ -->
+    <section class="slide tc">
+      <div
+        style="position:absolute;inset:0;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:.4rem;z-index:0;opacity:.6;">
+        <div style="grid-row:1/3;display:flex;">
+          <img src="foticx/insporevista.jpeg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div style="display:flex;">
+          <img src="foticx/nukak.jpg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div style="display:flex;">
+          <img src="foticx/selva.jpg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div style="grid-column:2/4;display:flex;">
+          <img src="foticx/webinspo.jpeg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+      </div>
+      <div
+        style="position:relative;z-index:1;background:rgba(10,8,5,.75);padding:2rem 2.5rem;max-width:480px;border-left:4px solid var(--red);backdrop-filter:blur(4px);">
+        <span class="tag tag-w">07 — Universo Visual · Moodboard</span>
+        <h2
+          style="font-size:2.8vw;color:#fff;font-family:'Montserrat';font-weight:900;line-height:.95;letter-spacing:-.025em;">
+          Selva.<br>Tierra.<br>Memoria.</h2>
+        <div class="bar" style="margin:1.2rem 0;"></div>
+        <p style="font-size:.9vw;color:rgba(255,255,255,.8);line-height:1.6;">La paleta visual nace del Amazonas
+          profundo: pigmentos de achiote, negro carbón, verde selva y el ocre de la arcilla. Una estética que habla de
+          lo ancestral sin caer en el cliché — contemporánea, atrevida, respetuosa.</p>
+        <div style="margin-top:1.2rem;display:flex;gap:.5rem;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#991C18;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#EFE8DA;border:1px solid #ccc;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#523936;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#01513F;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#1E9C9A;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 08: QR MANUAL DE MARCA ══ -->
+    <section class="slide center-slide" style="background: linear-gradient(135deg, #7B3FA0 0%, #A55BA4 50%, #5C2D8A 100%); padding:0; position:relative;">
+      <div class="ghost ghost-w" style="font-size:30vw; bottom:-8vw; right:-3vw; color:rgba(255,255,255,.04);">QR</div>
+      <div style="position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3rem; text-align:center; padding:4rem;">
+        <p style="font-family:'Montserrat'; font-size:3.5vw; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-.02em;">
+          Escanea para ver el<br>
+          <span style="color:rgba(255,255,255,.7);">Manual de Marca</span><br>
+          <span style="color:#fff;">NUKAK.</span>
+        </p>
+        <div style="background:#fff; padding:2rem; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,0.4); display:flex; flex-direction:column; align-items:center; gap:1.2rem;">
+          <img src="foticx/QR manual nukak.png" style="width:min(42vh, 42vw); height:min(42vh, 42vw); object-fit:contain; display:block;">
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 09: GALERÍA 1 ══ -->
+    <section class="slide td center-slide" style="padding: 0; position:relative;">
+      <img src="foticx/logo.svg" style="width:calc(100% - 20px); height:calc(100vh - 20px); margin:10px auto; object-fit:contain; border-radius:12px; z-index:1;">
+    </section>
+
+    <!-- ══ SLIDE 09: GALERÍA 2 ══ -->
+    <section class="slide td center-slide" style="padding: 0;">
+      <img src="foticx/paleta.svg" style="width:calc(100% - 20px); height:calc(100vh - 20px); margin:10px auto; object-fit:contain; border-radius:12px;">
+    </section>
+
+    <!-- ══ SLIDE 10: GALERÍA 3 ══ -->
+    <section class="slide td center-slide" style="padding: 0;">
+      <img src="foticx/tipografia.svg" style="width:calc(100% - 20px); height:calc(100vh - 20px); margin:10px auto; object-fit:contain; border-radius:12px;">
+    </section>
+
+
+    <!-- ══ SLIDE 11: PÚBLICO OBJETIVO ══ -->
+    <section class="slide tl">
+      <div class="ghost" style="color:rgba(0,0,0,.04);">12</div>
+      <div class="wide">
+        <span class="tag rv d1">11 — Público Objetivo</span>
+        <h2 class="rv d2" style="font-size:3.2vw;color:var(--dark);">Le hablamos<br>a quien sí<br>quiere escuchar.</h2>
+        <div class="bar rv d3"></div>
+        <div class="rv d4" style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="card card-g">
+            <h4>🎓 Educadores Millennials</h4>
+            <p>Maestros de 28–42 años que buscan contenido educativo diferente para sus aulas. Quieren mostrar a sus
+              estudiantes una Colombia más allá del libro de texto — con materiales culturales visuales, atractivos y
+              rigurosos en etnias y diversidad.</p>
+            <div style="margin-top:.8rem;">
+              <span class="pill pill-g">Docentes</span>
+              <span class="pill pill-g">Colegios y Universidades</span>
+              <span class="pill pill-g">Material didáctico alternativo</span>
+            </div>
+          </div>
+          <div class="card">
+            <h4>📚 Adultos Culturalmente Conscientes</h4>
+            <p>Personas mayores de 30 años — profesionales, creadores, académicos — que consumen contenido de nicho con
+              criterio. Les importa la etnia, la identidad cultural latinoamericana y el diseño editorial como forma de
+              arte. Compran libros, visitan museos, cuidan con qué decoran su escritorio.</p>
+            <div style="margin-top:.8rem;">
+              <span class="pill pill-r">+30 años</span>
+              <span class="pill pill-r">Cultura y Etnias</span>
+              <span class="pill pill-r">Coleccionistas</span>
+            </div>
+          </div>
+        </div>
+        <div class="rv d5"
+          style="margin-top:1.2rem;background:var(--dark);padding:1rem 1.4rem;border-left:3px solid var(--green);">
+          <p style="font-size:.82vw;color:rgba(255,255,255,.7);line-height:1.5;font-style:italic;">💡 No apuntamos al
+            joven que consume reel de 10 segundos. Apuntamos al adulto que <strong style="color:#fff;">paga por llegar
+              al fondo</strong> de algo que le parece importante.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 12: LA WEB — PRESENTACIÓN ══ -->
+    <section class="slide td">
+      <div class="ghost ghost-w">13</div>
+      <div class="split">
+        <div>
+          <span class="tag tag-w rv d1">12 — Ecosistema Digital</span>
+          <h2 class="rv d2" style="font-size:3.8vw;">La web no es<br>un brochure.</h2>
+          <div class="bar rv d3"></div>
+          <p class="body-w rv d4">Es un universo inmersivo construido desde cero. Un proyecto de <strong
+              style="color:var(--red);">código puro</strong> — sin frameworks ni plantillas — que demuestra que el
+            diseño web puede ser tan editorial como una publicación impresa.</p>
+          <div class="rv d5" style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.8rem;">
+            <div style="display:flex;align-items:center;gap:1rem;border-bottom:1px solid #1f1f1f;padding-bottom:.8rem;">
+              <span
+                style="font-family:'Montserrat';font-weight:900;font-size:1.1vw;color:var(--red);min-width:60px;">HTML5</span>
+              <p style="font-size:.8vw;color:#888;line-height:1.4;">Estructura semántica de 9 páginas interconectadas.
+                Accesible, indexable, optimizada.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;border-bottom:1px solid #1f1f1f;padding-bottom:.8rem;">
+              <span
+                style="font-family:'Montserrat';font-weight:900;font-size:1.1vw;color:var(--red);min-width:60px;">CSS3</span>
+              <p style="font-size:.8vw;color:#888;line-height:1.4;">Animaciones parallax, glassmorphism, paleta
+                indígena, tipografías curadas. Zero frameworks.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;">
+              <span
+                style="font-family:'Montserrat';font-weight:900;font-size:1.1vw;color:var(--red);min-width:60px;">JS</span>
+              <p style="font-size:.8vw;color:#888;line-height:1.4;">Juego de supervivencia, Turn.js para
+                previsualizador, lógica de e-commerce y scoring de decisiones.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rv d5" style="display:flex; align-items:center; justify-content:center;">
+          <div
+            style="background:var(--green); border-radius:12px; padding:2rem; width:100%; max-width:420px; display:flex; flex-direction:column; align-items:center; box-shadow:0 15px 40px rgba(108,190,69,0.25); border: 2px solid rgba(255,255,255,0.1);">
+            <h3
+              style="font-family:'Montserrat'; font-weight:900; font-size:clamp(16px, 1.8vw, 30px); color:var(--dark); text-align:center; text-transform:uppercase; line-height:1.1; margin-bottom:1.5rem;">
+              ¡Acompáñanos a<br>ver la web!</h3>
+            <a href="https://wolffhann.github.io/NukakUnaMiradaMasAllaDelConflictoWebsite/" target="_blank"
+              style="background:#fff; padding:1.5rem; border-radius:12px; display:flex; flex-direction:column; align-items:center; gap:1rem; width:100%; text-decoration:none; cursor:pointer; transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);"
+              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <div style="width:260px; height:260px; display:flex; align-items:center; justify-content:center;">
+                <img src="foticx/QR paginaweb.png" style="width:100%; height:100%; object-fit:contain;">
+              </div>
+              <span
+                style="font-size:1vw; font-weight:900; color:var(--dark); font-family:'Montserrat'; text-align:center; text-transform:uppercase;">Click
+                Aquí o Escanea</span>
+            </a>
+            <p
+              style="font-size:.8vw; color:#555; text-align:center; font-weight:700; margin-top:1rem; margin-bottom:0;">
+              ESCANEA PARA INTERACTUAR</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 13: LA REVISTA NUKAK ══ -->
+    <section class="slide tg">
+      <div class="ghost ghost-w">14</div>
+      <div class="split">
+        <div>
+          <span class="tag rv d1" style="color:var(--dark);">13 — La Revista Nukak</span>
+          <h2 class="rv d2" style="font-size:3.5vw;color:var(--dark);">La Revista<br>Nukak</h2>
+          <div class="bar rv d3" style="background:var(--dark);"></div>
+          <p class="rv d4" style="font-size:1vw;line-height:1.65;color:var(--dark);font-weight:600;">La revista Nukak
+            propone
+            una mirada editorial que trasciende la narrativa del conflicto, enfocándose en la cultura y la identidad de
+            la comunidad.</p>
+          <p class="rv d5" style="font-size:.85vw;color:rgba(0,0,0,.75);line-height:1.6;margin-top:.8rem;">A
+            través de una maquetación basada en retícula modular, una jerarquía tipográfica clara y un uso protagónico
+            de la imagen, se construye una experiencia visual que equilibra información y narrativa. El resultado es una
+            pieza que no solo comunica, sino que también construye memoria visual contemporánea.</p>
+        </div>
+        <div class="rv d5" style="display:flex;align-items:center;justify-content:center;">
+          <img src="foticx/Mockup%20revista.png" alt="Mockup Revista" style="width:100%; height:auto; max-height: 75vh; object-fit:contain; transform: scale(1.3);">
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ SLIDE 14: LA REVISTA ══ -->
+    <section class="slide tl">
+      <div class="ghost" style="color:rgba(0,0,0,.04);">15</div>
+      <div class="split">
+        <div>
+          <span class="tag rv d1">14 — Producto Editorial Físico</span>
+          <h2 class="rv d2" style="font-size:3.5vw;color:var(--dark);">Periodismo<br>Coleccionable.</h2>
+          <div class="bar rv d3"></div>
+          <p class="body rv d4">Diseñada por Johan Garzón. <strong>NUKAK — Una mirada más allá del conflicto</strong> es
+            una publicación impresa premium de edición limitada. No habla sobre los Nukak — los deja hablar.</p>
+          <p class="sub rv d5">Investigación periodística sin amarillismo. Dirección de arte de alto nivel. Hablamos de
+            desplazamiento y resistencia con datos, respeto y estética impecable.</p>
+          <div class="rv d6" style="margin-top:1.2rem;">
+            <span class="tag">Contenido de la revista</span>
+            <ul class="idx" style="border-top-color:#ddd;margin-top:.5rem;">
+              <li style="font-size:1vw;">I. ¿Quiénes son los Nukak?<span>→</span></li>
+              <li style="font-size:1vw;">II. Ubicación geográfica<span>→</span></li>
+              <li style="font-size:1vw;">III. Reserva Nacional Natural Nukak<span>→</span></li>
+              <li style="font-size:1vw;">IV. Conflicto armado<span>→</span></li>
+              <li style="font-size:1vw;">V. Hoy<span>→</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="rv d5">
+          <div class="ficha"
+            style="background:var(--red);border:none;box-shadow:0 15px 35px rgba(232,41,68,0.3);border-radius:6px;position:relative;overflow:hidden;">
+            <div
+              style="position:absolute;top:0;right:0;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;transform:translate(30%, -30%);">
+            </div>
+            <h4 style="color:#fff;border-bottom:1px solid rgba(255,255,255,0.2);position:relative;z-index:1;">Ficha
+              Técnica — Revista</h4>
+            <dl style="position:relative;z-index:1;">
+              <dt style="color:rgba(255,255,255,0.7);">Formato</dt>
+              <dd style="color:#fff;font-weight:700;">19,1 × 23 cm</dd>
+              <dt style="color:rgba(255,255,255,0.7);">Páginas</dt>
+              <dd style="color:#fff;font-weight:700;">12 páginas</dd>
+              <dt style="color:rgba(255,255,255,0.7);">Papel</dt>
+              <dd style="color:#fff;font-weight:700;">Propalcote 200g</dd>
+              <dt style="color:rgba(255,255,255,0.7);">Acabados</dt>
+              <dd style="color:#fff;font-weight:700;">Laminado brillante</dd>
+              <dt style="color:rgba(255,255,255,0.7);">Encuadernación</dt>
+              <dd style="color:#fff;font-weight:700;">Plegado, cosido con ganchos (grapas)</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 15: EMPAQUE 3D ══ -->
+    <section class="slide td" style="background-color: #AC559C;">
+      <div class="ghost ghost-w">16</div>
+      <div class="split">
+        <div>
+          <span class="tag tag-w rv d1">15 — Diseño de Empaque</span>
+          <h2 class="rv d2" style="font-size:3.5vw;">Contener<br>para<br>revelar.</h2>
+          <div class="bar rv d3"></div>
+          <p class="body-w rv d4">El empaque se concibe como una extensión del proyecto editorial, compuesto por dos
+            piezas que generan una experiencia de apertura progresiva.</p>
+          <p class="sub-w rv d5">A través del contraste cromático y el uso de elementos gráficos como la mano, se
+            construye una metáfora visual de identidad y presencia. El exterior comunica, mientras el interior revela,
+            reforzando la narrativa del proyecto desde lo tangible.</p>
+          <p class="sub-w rv d5" style="margin-top:1.2rem; color:rgba(255,255,255,.8);">Más que un contenedor, el
+            empaque funciona como un primer acercamiento sensorial a la historia que se desarrolla en la revista.</p>
+        </div>
+        <div class="rv d5" style="display:flex;flex-direction:column;gap:0;">
+          <div style="width:100%; display:flex; align-items:flex-end; justify-content:center;">
+            <img src="foticx/empaquelargo.png" alt="Empaque 3D" style="width:100%; height:auto; object-fit:contain; object-position:bottom;">
+          </div>
+          <div class="ficha">
+            <h4>Ficha Técnica — Empaque</h4>
+            <dl>
+              <dt>Formatos</dt>
+              <dd>2 piezas</dd>
+              <dt>Papel</dt>
+              <dd>Propalcote 300g</dd>
+              <dt>Laminado</dt>
+              <dd>Brillante</dd>
+              <dt>Color</dt>
+              <dd>Tiro y retiro</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 16: MATERIAL POP ══ -->
+    <section class="slide td">
+      <div class="ghost ghost-w">17</div>
+      <div class="wide" style="display:flex;flex-direction:column;gap:1.5rem;">
+        <div>
+          <span class="tag tag-w rv d1">16 — Material POP</span>
+          <h2 class="rv d2" style="font-size:3vw;">La cultura<br>que acompaña tu día.</h2>
+          <div class="bar rv d3"></div>
+          <p class="body-w rv d4" style="max-width:680px;">Tres piezas de merchandising que extienden el universo NUKAK
+            más allá de la revista. Cada una diseñada para ser utilitaria y simbólica a la vez. <strong
+              style="color:#fff;">Haz clic en cada pieza para ver detalles.</strong></p>
+        </div>
+        <div class="pop-grid rv d5"
+          style="grid-template-columns: 1fr 1fr 1fr; gap:0; border-radius:12px; overflow:hidden; border: 1px solid #333;">
+          <div class="pop-item-new" onclick="openModal('organizador')"
+            style="background:#2C1315; border-right:1px solid #333; padding:2rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; transition:background 0.3s;"
+            onmouseover="this.style.background='#3d191c'" onmouseout="this.style.background='#2C1315'">
+            <div
+              style="width:120px; height:120px; border-radius:50%; background:var(--red); display:flex; align-items:center; justify-content:center; font-size:3vw; margin-bottom:1.5rem; box-shadow:0 10px 20px rgba(232, 41, 68, 0.3);">
+              <span>📂</span>
+            </div>
+            <h4
+              style="font-family:'Montserrat'; font-weight:900; color:#fff; font-size:1vw; text-transform:uppercase; margin-bottom:0.8rem;">
+              Organizador de Escritorio</h4>
+            <p style="font-size:0.8vw; color:#aaa; line-height:1.5;">Cuerpo en acrílico rojo diseñado para sostener la
+              revista.</p>
+            <div
+              style="margin-top:auto; padding-top:1.5rem; color:var(--red); font-weight:bold; font-size:0.7vw; text-transform:uppercase; letter-spacing:0.1em;">
+              Ver Ficha Técnica +</div>
+          </div>
+
+          <div class="pop-item-new" onclick="openModal('tote')"
+            style="background:#17221A; border-right:1px solid #333; padding:2rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; transition:background 0.3s;"
+            onmouseover="this.style.background='#1f2e23'" onmouseout="this.style.background='#17221A'">
+            <div
+              style="width:120px; height:120px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; font-size:3vw; margin-bottom:1.5rem; box-shadow:0 10px 20px rgba(108, 190, 69, 0.3); transform: rotate(5deg);">
+              <span>👜</span>
+            </div>
+            <h4
+              style="font-family:'Montserrat'; font-weight:900; color:#fff; font-size:1vw; text-transform:uppercase; margin-bottom:0.8rem;">
+              Tote Bag Cultural</h4>
+            <p style="font-size:0.8vw; color:#aaa; line-height:1.5;">Pieza en lona de 40x33cm con estampado en DTF.</p>
+            <div
+              style="margin-top:auto; padding-top:1.5rem; color:var(--green); font-weight:bold; font-size:0.7vw; text-transform:uppercase; letter-spacing:0.1em;">
+              Ver Ficha Técnica +</div>
+          </div>
+
+          <div class="pop-item-new" onclick="openModal('stickers')"
+            style="background:#2A2312; padding:2rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; transition:background 0.3s;"
+            onmouseover="this.style.background='#3b3017'" onmouseout="this.style.background='#2A2312'">
+            <div
+              style="width:120px; height:120px; border-radius:16px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:3vw; margin-bottom:1.5rem; box-shadow:0 10px 20px rgba(250, 166, 62, 0.3); transform: rotate(-5deg);">
+              <span>✨</span>
+            </div>
+            <h4
+              style="font-family:'Montserrat'; font-weight:900; color:#fff; font-size:1vw; text-transform:uppercase; margin-bottom:0.8rem;">
+              Pack de Stickers</h4>
+            <p style="font-size:0.8vw; color:#aaa; line-height:1.5;">Vinilo adhesivo mate con semicorte en plotter.</p>
+            <div
+              style="margin-top:auto; padding-top:1.5rem; color:var(--gold); font-weight:bold; font-size:0.7vw; text-transform:uppercase; letter-spacing:0.1em;">
+              Ver Ficha Técnica +</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ SLIDE 17: ESTRATEGIA DE MARKETING ══ -->
+    <section class="slide tl">
+      <div class="ghost" style="color:rgba(0,0,0,.03);">18</div>
+      <div class="wide">
+        <span class="tag rv d1">17 — Estrategia de Marketing</span>
+        <h2 class="rv d2" style="font-size:2.8vw;color:var(--dark);">Plan de Distribución<br>y Campañas.</h2>
+        <div class="bar rv d3"></div>
+        <div class="rv d4"
+          style="display:grid;grid-template-columns:1fr 1.6fr;gap:2rem;margin-top:1.2rem;align-items:start;">
+          <!-- Donut charts column -->
+          <div>
+            <p
+              style="font-size:.65vw;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#999;margin-bottom:.8rem;">
+              Distribución del presupuesto</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div style="text-align:center;">
+                <svg viewBox="0 0 40 40" style="width:70px;height:70px;">
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#eee" stroke-width="4" />
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#c8341a" stroke-width="4" class="donut-circle c1"
+                    transform="rotate(-90 20 20)" />
+                </svg>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.2vw;color:var(--dark);margin:.3rem 0 .1rem;">
+                  27%</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">Redes Sociales</p>
+              </div>
+              <div style="text-align:center;">
+                <svg viewBox="0 0 40 40" style="width:70px;height:70px;">
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#eee" stroke-width="4" />
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#2d4a22" stroke-width="4" class="donut-circle c2"
+                    transform="rotate(-90 20 20)" />
+                </svg>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.2vw;color:var(--dark);margin:.3rem 0 .1rem;">
+                  22%</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">Influencers</p>
+              </div>
+              <div style="text-align:center;">
+                <svg viewBox="0 0 40 40" style="width:70px;height:70px;">
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#eee" stroke-width="4" />
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#b8860b" stroke-width="4" class="donut-circle c3"
+                    transform="rotate(-90 20 20)" />
+                </svg>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.2vw;color:var(--dark);margin:.3rem 0 .1rem;">
+                  18%</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">SEO / Contenido</p>
+              </div>
+              <div style="text-align:center;">
+                <svg viewBox="0 0 40 40" style="width:70px;height:70px;">
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#eee" stroke-width="4" />
+                  <circle r="15.9" cx="20" cy="20" fill="none" stroke="#555" stroke-width="4" class="donut-circle c4"
+                    transform="rotate(-90 20 20)" />
+                </svg>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.2vw;color:var(--dark);margin:.3rem 0 .1rem;">
+                  33%</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">Producción y POP</p>
+              </div>
+            </div>
+          </div>
+          <!-- Funnel campaigns column -->
+          <div>
+            <p
+              style="font-size:.65vw;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#999;margin-bottom:.8rem;">
+              Embudo de campañas — 3 fases</p>
+            <div class="funnel" style="display:flex;flex-direction:column;gap:0;">
+              <div
+                style="background:var(--dark);padding:.9rem 1.2rem;border-left:4px solid var(--red);border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <p
+                    style="font-family:'Montserrat';font-weight:800;font-size:.8vw;color:#fff;text-transform:uppercase;letter-spacing:.06em;">
+                    Fase 1 — TOFU · Conciencia</p>
+                  <p style="font-size:.7vw;color:#666;margin-top:.3rem;">TikTok + Reels ASMR unboxing · SEO palabras
+                    clave cultura indígena</p>
+                </div>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.5vw;color:var(--red);min-width:50px;text-align:right;">
+                  ~60%</p>
+              </div>
+              <div
+                style="background:#101010;padding:.9rem 1.2rem;border-left:4px solid var(--green);border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <p
+                    style="font-family:'Montserrat';font-weight:800;font-size:.8vw;color:#fff;text-transform:uppercase;letter-spacing:.06em;">
+                    Fase 2 — MOFU · Consideración</p>
+                  <p style="font-size:.7vw;color:#666;margin-top:.3rem;">Juego web gamificado · Previsualizador revista
+                    · Email marketing educativo</p>
+                </div>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.5vw;color:var(--green);min-width:50px;text-align:right;">
+                  ~27%</p>
+              </div>
+              <div
+                style="background:#0a0a0a;padding:.9rem 1.2rem;border-left:4px solid var(--gold);display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <p
+                    style="font-family:'Montserrat';font-weight:800;font-size:.8vw;color:#fff;text-transform:uppercase;letter-spacing:.06em;">
+                    Fase 3 — BOFU · Conversión</p>
+                  <p style="font-size:.7vw;color:#666;margin-top:.3rem;">Paywall emocional · Escasez 10.000 copias ·
+                    E-commerce · 6 cuotas</p>
+                </div>
+                <p
+                  style="font-family:'Montserrat';font-weight:900;font-size:1.5vw;color:var(--gold);min-width:50px;text-align:right;">
+                  ~13%</p>
+              </div>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:1rem;">
+              <div style="flex:1;background:#f9f7f3;border:1px solid #e0ddd7;padding:.8rem;text-align:center;">
+                <p style="font-family:'Montserrat';font-weight:900;font-size:1.6vw;color:var(--red);">$50K</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">COP solo revista</p>
+              </div>
+              <div style="flex:1;background:#f9f7f3;border:1px solid #e0ddd7;padding:.8rem;text-align:center;">
+                <p style="font-family:'Montserrat';font-weight:900;font-size:1.6vw;color:var(--green);">10.000</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">copias edición limitada</p>
+              </div>
+              <div style="flex:1;background:#f9f7f3;border:1px solid #e0ddd7;padding:.8rem;text-align:center;">
+                <p style="font-family:'Montserrat';font-weight:900;font-size:1.6vw;color:var(--dark);">$95K</p>
+                <p style="font-size:.6vw;color:#999;text-transform:uppercase;letter-spacing:.08em;">COP revista + obsequios</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 18: ESTRATEGIA - ROLES ══ -->
+    <section class="slide tl">
+      <div class="ghost">19</div>
+      <div class="wide">
+        <span class="tag rv d1" style="color:#000;">18 — Ejecución Híbrida</span>
+        <h2 class="rv d2" style="font-size:3vw; color:#000;">Editor y Obra:<br>Dos caminos cruzados.</h2>
+        <div class="bar rv d3"></div>
+        <p class="body rv d4" style="max-width:700px; margin-bottom:2rem; color:#000;">Para que un proyecto de grado destaque a
+          nivel profesional, la estrategia separa claramente el <strong>rol de la editorial</strong> (sello de calidad)
+          y el <strong>rol del proyecto</strong> (identidad propia de la obra).</p>
+
+        <div class="rv d5" style="display:flex; gap:2rem;">
+          <!-- Accordion 1 -->
+          <div
+            style="flex:1; background:#111; border-top:4px solid var(--green); padding:2rem; cursor:pointer; position:relative; overflow:hidden; border-radius:0 0 8px 8px; transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;"
+            onmouseover="this.style.transform='translateY(-5px) scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(108, 190, 69, 0.2)'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none'">
+            <h4
+              style="font-family:'Montserrat'; font-size:1.2vw; font-weight:900; color:var(--green); text-transform:uppercase; margin-bottom:1rem;">
+              1. Estrategia de Editorial</h4>
+            <p style="font-size:0.8vw; color:#aaa; margin-bottom:1.5rem;">Generar confianza y posicionar la obra como
+              novedad imprescindible.</p>
+
+            <div style="margin-bottom:1.2rem;">
+              <span
+                style="font-size:0.7vw; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #333; display:inline-block; margin-bottom:0.5rem; padding-bottom:0.2rem;">Orgánico
+                (Content)</span>
+              <ul style="list-style:none; font-size:0.75vw; color:#888; line-height:1.6;">
+                <li style="margin-bottom:0.4rem;">• <strong>Detrás de cámaras:</strong> Procesos de impresión en
+                  Reels/TikTok.</li>
+                <li style="margin-bottom:0.4rem;">• <strong>Newsletter Especial:</strong> "La apuesta del semestre".
+                </li>
+                <li>• <strong>Preventa Exclusiva:</strong> Descuento 10-15% para primeros 50.</li>
+              </ul>
+            </div>
+
+            <div>
+              <span
+                style="font-size:0.7vw; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #333; display:inline-block; margin-bottom:0.5rem; padding-bottom:0.2rem;">Pautado
+                (Ads)</span>
+              <ul style="list-style:none; font-size:0.75vw; color:#888; line-height:1.6;">
+                <li style="margin-bottom:0.4rem;">• <strong>Meta Ads:</strong> Retargeting a seguidores ($150-$300 USD).
+                </li>
+                <li>• <strong>Segmentación:</strong> Hábitos de lectura, ferias, géneros.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Accordion 2 -->
+          <div
+            style="flex:1; background:#111; border-top:4px solid var(--purple); padding:2rem; cursor:pointer; position:relative; overflow:hidden; border-radius:0 0 8px 8px; transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;"
+            onmouseover="this.style.transform='translateY(-5px) scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(165, 91, 164, 0.2)'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none'">
+            <h4
+              style="font-family:'Montserrat'; font-size:1.2vw; font-weight:900; color:var(--purple); text-transform:uppercase; margin-bottom:1rem;">
+              2. Estrategia del Proyecto</h4>
+            <p style="font-size:0.8vw; color:#aaa; margin-bottom:1.5rem;">Conectar emocionalmente, que la marca se
+              sienta viva.</p>
+
+            <div style="margin-bottom:1.2rem;">
+              <span
+                style="font-size:0.7vw; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #333; display:inline-block; margin-bottom:0.5rem; padding-bottom:0.2rem;">Orgánico
+                (Comunidad)</span>
+              <ul style="list-style:none; font-size:0.75vw; color:#888; line-height:1.6;">
+                <li style="margin-bottom:0.4rem;">• <strong>Transmedia:</strong> Hilos en X sobre el universo.</li>
+                <li style="margin-bottom:0.4rem;">• <strong>Street Marketing:</strong> Filtros IG, audio leaks en
+                  Spotify.</li>
+                <li>• <strong>Contenido Educativo:</strong> Curiosidades y hallazgos.</li>
+              </ul>
+            </div>
+
+            <div>
+              <span
+                style="font-size:0.7vw; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #333; display:inline-block; margin-bottom:0.5rem; padding-bottom:0.2rem;">Pautado
+                (Alcance)</span>
+              <ul style="list-style:none; font-size:0.75vw; color:#888; line-height:1.6;">
+                <li style="margin-bottom:0.4rem;">• <strong>TikTok Ads:</strong> Spark Ads de Booktokers.</li>
+                <li style="margin-bottom:0.4rem;">• <strong>YouTube Bumper:</strong> Videos de 6s visuales.</li>
+                <li>• <strong>Presupuesto:</strong> $100-$200 USD.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 19: KPI & CRONOGRAMA ══ -->
+    <section class="slide td" style="background-color: #80C6D6;">
+      <div class="ghost ghost-w">20</div>
+      <div class="wide">
+        <span class="tag tag-w rv d1" style="color:rgba(0,0,0,0.5);">19 — Resultados &amp; Benchmarking</span>
+        <h2 class="rv d2" style="font-size:3vw; color:#000;">Proyección de<br>Impacto y Cronograma.</h2>
+        <div class="bar rv d3" style="background:#000;"></div>
+
+        <div class="rv d4" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem;">
+          <!-- Left: Table & Resumen -->
+          <div>
+            <h4 style="font-family:'Montserrat'; font-size:1vw; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">
+              Estimado de Resultados</h4>
+            <div style="background:#111; border-radius:6px; overflow:hidden; border:1px solid rgba(255,255,255,0.2); margin-bottom:1.5rem;">
+              <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.75vw;">
+                <thead style="background:rgba(255,255,255,0.1); font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:0.05em;">
+                  <tr>
+                    <th style="padding:1rem;">Canal</th>
+                    <th style="padding:1rem;">Alcance Estim.</th>
+                    <th style="padding:1rem;">Conversión</th>
+                    <th style="padding:1rem;">KPI Principal</th>
+                  </tr>
+                </thead>
+                <tbody style="color:#fff;">
+                  <tr style="border-bottom:1px solid rgba(255,255,255,0.15);" class="anim-row delay-1">
+                    <td style="padding:1rem; color:var(--red); font-weight:bold;">Editorial</td>
+                    <td style="padding:1rem;">5k - 10k</td>
+                    <td style="padding:1rem;">2% - 5%</td>
+                    <td style="padding:1rem;">CTR enlace</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(255,255,255,0.15);" class="anim-row delay-2">
+                    <td style="padding:1rem; color:var(--red); font-weight:bold;">Proyecto</td>
+                    <td style="padding:1rem;">15k+ (Viral)</td>
+                    <td style="padding:1rem;">1% - 3%</td>
+                    <td style="padding:1rem;">Guardados</td>
+                  </tr>
+                  <tr class="anim-row delay-3">
+                    <td style="padding:1rem; color:var(--red); font-weight:bold;">Paid Ads</td>
+                    <td style="padding:1rem;">50k - 80k</td>
+                    <td style="padding:1rem;">0.5% - 1.5%</td>
+                    <td style="padding:1rem;">CPA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="display:flex; gap:1rem;">
+              <div style="flex:1; background:#111; padding:1rem; border-left:3px solid var(--red);">
+                <p style="font-family:'Montserrat'; font-size:1.5vw; font-weight:900; color:#fff; line-height:1;">150-300</p>
+                <p style="font-size:0.6vw; color:var(--red); text-transform:uppercase; letter-spacing:0.1em; margin-top:0.3rem;">Ventas (Mes 1)</p>
+              </div>
+              <div style="flex:1; background:#111; padding:1rem; border-left:3px solid var(--red);">
+                <p style="font-family:'Montserrat'; font-size:1.5vw; font-weight:900; color:#fff; line-height:1;">+500</p>
+                <p style="font-size:0.6vw; color:var(--red); text-transform:uppercase; letter-spacing:0.1em; margin-top:0.3rem;">Nuevos Fieles</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Cronograma animado -->
+          <div class="crono-wrap">
+            <h4 style="font-family:'Montserrat'; font-size:1vw; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">
+              Cronograma (4 Semanas)</h4>
+            <div style="display:flex; flex-direction:column; gap:0; position:relative;">
+              <div style="position:absolute; left:15px; top:10px; bottom:10px; width:2px; background:rgba(0,0,0,0.2); z-index:0;">
+                <div class="crono-line" style="width:100%; height:0%; background:var(--red); transition:height 2s ease;"></div>
+              </div>
+
+              <div class="crono-step cr-1" style="position:relative; z-index:1; display:flex; gap:1.5rem; margin-bottom:1.5rem; opacity:0; transform:translateX(-20px); transition:all 0.5s;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--red); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-family:'Montserrat'; font-weight:900; font-size:0.8vw; color:#fff; flex-shrink:0;">1</div>
+                <div style="padding-top:0.3rem;">
+                  <h5 style="font-family:'Montserrat'; font-weight:800; font-size:0.8vw; color:#000; text-transform:uppercase;">Semana 1 — Teasing</h5>
+                  <p style="font-size:0.75vw; color:var(--red); margin-top:0.3rem; line-height:1.4;">"Algo viene". Sombras, texturas y fragmentos de texto.</p>
+                </div>
+              </div>
+
+              <div class="crono-step cr-2" style="position:relative; z-index:1; display:flex; gap:1.5rem; margin-bottom:1.5rem; opacity:0; transform:translateX(-20px); transition:all 0.5s;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--red); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-family:'Montserrat'; font-weight:900; font-size:0.8vw; color:#fff; flex-shrink:0;">2</div>
+                <div style="padding-top:0.3rem;">
+                  <h5 style="font-family:'Montserrat'; font-weight:800; font-size:0.8vw; color:#000; text-transform:uppercase;">Semana 2 — Revelación</h5>
+                  <p style="font-size:0.75vw; color:var(--red); margin-top:0.3rem; line-height:1.4;">Lanzamiento de preventa y video oficial. Comienzo pauta.</p>
+                </div>
+              </div>
+
+              <div class="crono-step cr-3" style="position:relative; z-index:1; display:flex; gap:1.5rem; margin-bottom:1.5rem; opacity:0; transform:translateX(-20px); transition:all 0.5s;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--red); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-family:'Montserrat'; font-weight:900; font-size:0.8vw; color:#fff; flex-shrink:0;">3</div>
+                <div style="padding-top:0.3rem;">
+                  <h5 style="font-family:'Montserrat'; font-weight:800; font-size:0.8vw; color:#000; text-transform:uppercase;">Semana 3 — Validación</h5>
+                  <p style="font-size:0.75vw; color:var(--red); margin-top:0.3rem; line-height:1.4;">Reseñas, testimonios y "unboxing" de impreso/digital.</p>
+                </div>
+              </div>
+
+              <div class="crono-step cr-4" style="position:relative; z-index:1; display:flex; gap:1.5rem; opacity:0; transform:translateX(-20px); transition:all 0.5s;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--red); border:2px solid var(--red); display:flex; align-items:center; justify-content:center; font-family:'Montserrat'; font-weight:900; font-size:0.8vw; color:#fff; flex-shrink:0;">4</div>
+                <div style="padding-top:0.3rem;">
+                  <h5 style="font-family:'Montserrat'; font-weight:800; font-size:0.8vw; color:#000; text-transform:uppercase;">Semana 4 — Mantenimiento</h5>
+                  <p style="font-size:0.75vw; color:var(--red); margin-top:0.3rem; line-height:1.4;">Evento de lanzamiento y pauta "Últimos días promo".</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ══ SLIDE 20: CIERRE ══ -->
+    <section class="slide center-slide" style="background: radial-gradient(circle, #E82944 0%, #7A0010 100%); position:relative; overflow:hidden;">
+      <div class="ghost ghost-w" style="color:rgba(255,255,255,.05); font-size:35vw; bottom:-10vw; right:-5vw;">TH</div>
+      
+      <div style="position:absolute; width:45vw; height:45vw; background:rgba(255,255,255,0.08); filter:blur(100px); border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%); pointer-events:none;"></div>
+      
+      <div style="position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:2rem;">
+        <h2 class="rv d1" style="font-size:4.5vw;color:#fff;font-family:'Montserrat';font-weight:900;text-transform:uppercase;letter-spacing:0.05em; text-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          ¡Gracias!<br>Esto fue Tera House.
+        </h2>
+        <div class="bar bar-w rv d2" style="margin:.4rem auto; height:4px; box-shadow: 0 0 15px rgba(255,255,255,0.6);"></div>
+        <p class="rv d3" style="font-size:1.3vw;color:rgba(255,255,255,.9);font-weight:300;font-family:'Montserrat';letter-spacing:.06em;text-align:center;max-width:700px;line-height:1.6;">
+          El diseño es nuestra herramienta.<br>La memoria cultural, nuestra responsabilidad.
+        </p>
+        
+        <div class="rv d4" style="margin-top:2.5rem; display:flex; align-items:center; justify-content:center; gap:3rem; background:rgba(0,0,0,0.25); padding:2.5rem 4rem; border-radius:20px; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.4);">
+          <img src="foticx/logonukakblanco.png" alt="Nukak" style="height:65px; object-fit:contain;">
+          <div style="width:2px; height:80px; background:rgba(255,255,255,0.25);"></div>
+          <img src="foticx/logoterablanco.png" alt="Tera House" style="height:55px; object-fit:contain;">
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /track -->
+
+  <script>
+    const DATA_POP = {
+      organizador: { img: 'foticx/organizador.png', tag: 'Material POP', title: 'Organizador de Escritorio', desc: 'El organizador consiste de 6 piezas de acrílico rojo translúcido de 4mm pegadas, contando con un doblez especial que permite sostener y exhibir la revista de forma elegante. Decorado completamente mediante impresión en DTF UV para una alta durabilidad y estética.', ficha: [['Material', 'Acrílico rojo translúcido 4mm'], ['Estructura', '6 piezas pegadas con doblez de soporte'], ['Técnica de Arte', 'Impresión en DTF UV']] },
+      tote: { img: 'foticx/totebagmockup.png', tag: 'Material POP', title: 'Tote Bag Cultural NUKAK', desc: 'Práctica Tote bag elaborada en lona, ideal para extender la presencia del proyecto en el espacio público. Cuenta con el logotipo impreso tanto en la parte delantera como en la trasera, garantizando una identidad visual fuerte desde cualquier ángulo.', ficha: [['Material', 'Lona resistente'], ['Impresión', 'Estampado en DTF'], ['Dimensiones', '40 × 33 cm'], ['Diseño', 'Logo por ambos lados']] },
+      stickers: { img: 'foticx/stikers.png', tag: 'Material POP', title: 'Pack de Stickers — 6 ilustraciones', desc: 'Set de 6 stickers impresos en vinilo adhesivo con acabado mate. Su fabricación incluye semicorte en plotter para un desprendimiento fácil y preciso. Los diseños abarcan cuatro variaciones de color del isologo propio, el retrato de un niño de la comunidad y una colorida ilustración de la fauna nativa.', ficha: [['Material', 'Vinilo adhesivo'], ['Acabado', 'Laminado mate'], ['Corte', 'Semicorte en plotter'], ['Cantidad', '6 diseños exclusivos por pack']] }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const track = document.getElementById('track');
+      const slides = document.querySelectorAll('.slide');
+      const prg = document.getElementById('prg');
+      const cnt = document.getElementById('cnt');
+      const total = slides.length;
+      track.style.width = `calc(100vw * ${total})`;
+      let cur = 0, busy = false;
+      function go(n) {
+        if (n < 0 || n >= total || busy) return;
+        slides[cur].classList.remove('active');
+        cur = n;
+        slides[cur].classList.add('active');
+        track.style.transform = `translateX(-${cur * 100}vw)`;
+        prg.style.width = `${((cur + 1) / total) * 100}%`;
+        cnt.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+        const stamp = document.querySelector('.stamp');
+        if (stamp) stamp.style.opacity = cur === 0 ? '0' : '1';
+
+        const ctrls = document.querySelectorAll('.cbtn');
+        const isWhite = slides[cur].classList.contains('tl') && !slides[cur].style.backgroundColor;
+
+        if (cur === 0 || cur === 1 || cur === 18 || cur === 19) {
+          ctrls.forEach(c => { c.style.color = 'var(--red)'; c.style.borderColor = 'var(--red)'; c.style.mixBlendMode = 'normal'; c.style.background = 'transparent'; });
+        } else if (isWhite) {
+          const colors = ['var(--purple)', 'var(--red)', 'var(--gold)'];
+          const clr = colors[cur % 3];
+          ctrls.forEach(c => { c.style.color = clr; c.style.borderColor = clr; c.style.mixBlendMode = 'normal'; });
+        } else {
+          ctrls.forEach(c => { c.style.color = '#fff'; c.style.borderColor = 'rgba(255, 255, 255, 0.2)'; c.style.mixBlendMode = 'difference'; });
+        }
+
+        busy = true;
+        setTimeout(() => busy = false, 950);
+      }
+      document.getElementById('next').addEventListener('click', () => go(cur + 1));
+      document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(cur + 1);
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(cur - 1);
+      });
+      let sx = 0;
+      document.addEventListener('touchstart', e => sx = e.touches[0].clientX, { passive: true });
+      document.addEventListener('touchend', e => { const dx = sx - e.changedTouches[0].clientX; if (Math.abs(dx) > 50) go(dx > 0 ? cur + 1 : cur - 1); });
+      go(0);
+    });
+
+    window.openModal = function (key) {
+      const d = DATA_POP[key]; if (!d) return;
+      document.getElementById('m-tag').textContent = d.tag;
+      document.getElementById('m-title').textContent = d.title;
+      document.getElementById('m-desc').textContent = d.desc;
+
+      const imgEl = document.getElementById('m-img');
+      const iconEl = document.getElementById('m-icon');
+      if (d.img) {
+        imgEl.src = d.img;
+        imgEl.style.display = 'block';
+        iconEl.style.display = 'none';
+      } else if (d.icon) {
+        iconEl.textContent = d.icon;
+        iconEl.style.display = 'block';
+        imgEl.style.display = 'none';
+      }
+
+      const fl = document.getElementById('m-ficha');
+      fl.innerHTML = d.ficha.map(r => `<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('');
+      document.getElementById('modal').classList.add('open');
+    };
+    document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('open'); });
+
+    // ── TERA HOUSE MASCOTS BG ──
+    (function () {
+      const IMGS = ['foticx/cerebelo.svg', 'foticx/gatito.svg', 'foticx/aiñ.svg', 'foticx/gusanito.svg', 'foticx/huesito.svg', 'foticx/happy.svg', 'foticx/ojito.svg', 'foticx/pata.svg', 'foticx/lengua.svg'];
+      // One BIG mascot per slide: [imgIndex, top%, left%, size(vw), opacity, rotate(deg)]
+      const PLACES = [
+        [0, 10, 75, 50, 0, -15],  // slide 1 (0): portada opacity 0
+        [1, -25, 78, 22, 1, 18],  // slide 2 (1): gato arriba-derecha, lejos del texto
+        [2, 'calc(5% - 20px)', 'calc(40% - 80px)', 20.25, 1, -8],   // slide 3 (2): aiñ más grande
+        [3, -5, 55, 25, 1, 22],   // slide 4 (3): gusanito
+        [6, 5, 50, 12, 1, -20],   // slide 5 (4): ojito
+        [5, 75, 80, 20, 1, 12],   // slide 6 (5)
+        [6, -5, 85, 20, 0, -5],   // slide 7 (6): moodboard
+        [0, -20, -20, 10, 0, 0],  // slide 8 (7): QR morado - fuera de vista
+        [7, 60, 5, 50, 0, 15],    // slide 9 (8): galería 1 opacity 0
+        [0, 40, 70, 64, 0, 30],   // slide 10 (9): galería 2 opacity 0
+        [2, 55, 60, 48, 0, -25],  // slide 11 (10): galería 3 opacity 0
+        [3, 5, 85, 22, 1, 10],    // slide 12 (11): público
+        [5, -8, 50, 15, 1, 0],    // slide 13 (12): web - happy arriba centro
+        [6, 5, 80, 20, 1, 25],    // slide 14 (13): revista nukak
+        [7, 75, 85, 12, 1, -12],  // slide 15 (14): revista física
+        [1, 15, 28, 12, 1, 15],   // slide 16 (15): empaque
+        [4, 10, 75, 15, 1, -30],  // slide 17 (16): material POP
+        [0, 5, 85, 20, 1, 5],     // slide 18 (17): estrategia
+        [3, 60, 80, 25, 1, -10],  // slide 19 (18): roles
+        [8, 55, 80, 18, 1, -5],   // slide 20 (19): KPI
+        [0, 10, 75, 50, 0, 0]     // slide 21 (20): cierre
+      ];
+      document.querySelectorAll('.slide').forEach((slide, si) => {
+        const layer = document.createElement('div');
+        layer.className = 'mascot-layer';
+        const p = PLACES[si % PLACES.length];
+        const img = document.createElement('img');
+        img.src = IMGS[p[0]];
+        img.style.cssText = `top:${typeof p[1] === 'number' ? p[1] + '%' : p[1]};left:${typeof p[2] === 'number' ? p[2] + '%' : p[2]};width:${p[3]}vw;opacity:${p[4]};transform:rotate(${p[5]}deg);`;
+        layer.appendChild(img);
+        slide.insertBefore(layer, slide.firstChild);
+      });
+    })();
+  </script>
+</body>
+
+</html>
